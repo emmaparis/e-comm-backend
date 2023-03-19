@@ -112,6 +112,7 @@ router.put('/:id', (req, res) => {
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
         ProductTag.bulkCreate(newProductTags),
       ]);
+
     })
     .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
@@ -122,6 +123,19 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  Product.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+  .then((products) => {
+    console.log(products);
+    res.json(products);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(400).json(err);
+  });
 });
 
 module.exports = router;
